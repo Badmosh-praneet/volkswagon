@@ -371,12 +371,7 @@ async function loadLineup() {
   heroStrip(MODELS);
   renderLineup(MODELS);
   el('lineup-disclaimer').textContent = data.disclaimer;
-  const credit = data.imageCredit;
-  if (credit) {
-    el('footer-credit').innerHTML =
-      `${esc(credit.text)} Served locally from <code>${esc(credit.cdn)}</code> originals — ` +
-      `<a href="${esc(credit.sourceUrl)}" target="_blank" rel="noopener">source page</a>.`;
-  }
+
 
   /* Body-type chips, counted from the model set rather than the facet list, so
      a chip's number always matches what clicking it shows. The facet counts on
