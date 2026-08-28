@@ -1,389 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Volkswagen India — Line-up, Ownership, Finance</title>
-<meta name="description" content="The Volkswagen India line-up, ownership programme and finance, rendered live from a knowledge base of volkswagen.co.in. Taigun, Virtus, Tayron, Tiguan R-Line and Golf GTI.">
-<link rel="icon" type="image/png" href="/assets/img/favicon.png">
-<link rel="apple-touch-icon" href="/assets/img/vw-logo.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/assets/css/styles.css">
+  <meta charset="utf-8">
+  <title>Volkswagen Bangalore</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <style>
+    .outlets-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+    .outlet-card { background: #171a21; padding: 20px; border-radius: 8px; }
+    .outlet-card h3 { margin-bottom: 10px; color: #fff; }
+    .outlet-card p { color: #a1a1aa; margin: 5px 0; font-size: 14px; }
+  </style>
 </head>
 <body>
 
-<nav class="nav">
-  <div class="nav-inner">
-    <a class="brand" href="/" aria-label="Volkswagen India — home">
-      <img class="brand-mark" src="/assets/img/vw-logo.png" alt=""
-           width="30" height="30" decoding="async">
-      Volkswagen India
-    </a>
-    <div class="nav-links">
-      <a href="#lineup">Models</a>
-      <a href="#compare">Compare</a>
-      <a href="#ownership">Ownership</a>
-      <a href="#finance">Finance</a>
-      <a href="#preowned">Pre-owned</a>
-      <span class="nav-sep" aria-hidden="true"></span>
-      <a href="/dashboard.html">API explorer</a>
-      <a href="/docs">Docs</a>
-    </div>
-  </div>
-</nav>
-
-<!-- ------------------------------------------------------------- hero -- -->
-<header class="hero">
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <span class="eyebrow">Volkswagen Group in India</span>
-      <h1>Every Volkswagen in India,<em>and every figure behind it.</em></h1>
-      <p class="hero-lede">
-        Five model pages, eight variants and the whole ownership programme —
-        read live out of a knowledge base scraped from volkswagen.co.in.
-        Nothing on this page is typed in by hand.
-      </p>
-
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="#book">Book a test drive</a>
-        <a class="btn btn-ghost" href="#lineup">Explore the line-up</a>
-      </div>
-    </div>
-
-    <!-- Showcase slider. Arrows, swipe, arrow keys or the strip below; it
-         advances on its own until you take over. -->
-    <div class="stage" id="hero-stage-wrap" role="region"
-         aria-roledescription="carousel" aria-label="Model showcase">
-      <button class="stage-nav prev" type="button" id="stage-prev"
-              aria-label="Previous model"></button>
-      <button class="stage-nav next" type="button" id="stage-next"
-              aria-label="Next model"></button>
-      <div id="hero-stage" aria-live="polite">
-        <div class="skeleton" style="min-height:260px;background:none"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Selector strip: the whole line-up, one click to bring it onto the stage. -->
+<header class="masthead">
   <div class="wrap">
-    <div class="strip" id="hero-strip" role="group"
-         aria-label="Choose a model to feature"></div>
-
-    <div class="hero-stats" id="hero-stats">
-      <div><span class="v">—</span><span class="k label">Models</span></div>
-      <div><span class="v">—</span><span class="k label">Variants</span></div>
-      <div><span class="v">—</span><span class="k label">From, ex-showroom</span></div>
-    </div>
+    <h1>Volkswagen Bangalore</h1>
   </div>
 </header>
 
-<!-- ----------------------------------------------------------- line-up -- -->
-<section class="section" id="lineup">
-  <div class="wrap">
-    <div class="section-head" data-reveal>
-      <span class="eyebrow">Models</span>
-      <h2>Three SUVs, a sedan and a hot hatch</h2>
-      <p>
-        Every price, engine and power figure below is read from that model's own
-        knowledge-base page. Filter counts come from the facet list on the
-        source line-up page.
-      </p>
-    </div>
+<main class="wrap" style="padding-top: 40px; padding-bottom: 80px;">
+  
+  <section id="models-section" style="margin-bottom: 60px;">
+    <h2>Our Line-up</h2>
+    <p>Explore the Volkswagen range available at our Bangalore showrooms.</p>
+    <div class="grid-cards" id="models-grid" style="margin-top:20px;"></div>
+  </section>
 
-    <div class="filters" id="lineup-filters" role="group" aria-label="Filter the line-up by body type"></div>
-    <div class="grid-cards" id="lineup-grid"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+  <section id="outlets-section" style="margin-bottom: 60px;">
+    <h2>Our Outlets in Bangalore</h2>
+    <div class="outlets-grid" id="outlets-grid"></div>
+  </section>
 
-    <p class="section-head src" style="margin:26px 0 0" id="lineup-disclaimer"></p>
-  </div>
-</section>
-
-<!-- ----------------------------------------------------------- compare -- -->
-<section class="section section-alt" id="compare">
-  <div class="wrap">
-    <div class="section-head section-head-split" data-reveal>
-      <span class="eyebrow">Compare</span>
-      <h2>Two, side by side</h2>
-      <div class="lede">
-        <p>
-          Only the fields the knowledge base states for both cars are shown — where
-          a page does not publish a figure, the row is left out rather than filled in.
-        </p>
+  <section id="contact-section">
+    <h2>Contact Us</h2>
+    <form id="contact-form" style="max-width: 400px; margin-top: 20px;">
+      <div class="field">
+        <label>Name</label>
+        <input type="text" id="contact-name" required>
       </div>
-    </div>
-
-    <div class="filters">
-      <div class="field" style="margin:0;min-width:220px">
-        <label for="cmp-a">First model</label>
-        <select id="cmp-a"></select>
+      <div class="field">
+        <label>Phone</label>
+        <input type="text" id="contact-phone" required>
       </div>
-      <span class="label" style="align-self:flex-end;padding-bottom:13px">versus</span>
-      <div class="field" style="margin:0;min-width:220px">
-        <label for="cmp-b">Second model</label>
-        <select id="cmp-b"></select>
+      <div class="field">
+        <label>Message</label>
+        <textarea id="contact-message"></textarea>
       </div>
-    </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <p id="contact-result" style="margin-top: 10px; color: #10b981;"></p>
+    </form>
+  </section>
 
-    <div id="compare-out"><div class="skeleton" style="min-height:280px"></div></div>
-  </div>
-</section>
+</main>
 
-<!-- --------------------------------------------------------- ownership -- -->
-<section class="section" id="ownership">
-  <div class="wrap">
-    <div class="ink-block" data-reveal>
-      <span class="eyebrow">Included with every car</span>
-      <h2 id="care-name">Volkswagen 4EVER Care</h2>
-      <p style="margin-top:14px;max-width:62ch;font-size:17px" id="care-intro"></p>
-      <div class="pillars" id="care-pillars"></div>
-    </div>
-
-    <div class="section-head" style="margin:64px 0 34px" data-reveal>
-      <span class="eyebrow">The first year</span>
-      <h2>Three services before you pay for one</h2>
-      <p>The orientation schedule every new owner gets, as published on the 4EVER Care page.</p>
-    </div>
-    <div class="schedule" id="care-schedule" data-reveal-children></div>
-
-    <div class="section-head" style="margin:64px 0 34px" data-reveal>
-      <span class="eyebrow">Owners &amp; services</span>
-      <h2>Support for the rest of it</h2>
-    </div>
-    <div class="grid grid-4" id="services-grid" data-reveal-children><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
-  </div>
-</section>
-
-<!-- ----------------------------------------------------------- finance -- -->
-<section class="section section-alt" id="finance">
-  <div class="wrap">
-    <div class="section-head section-head-split" data-reveal>
-      <span class="eyebrow">Finance</span>
-      <h2>What it costs to own</h2>
-      <div class="lede">
-        <p>
-          Both figures are computed by the API, not in the browser — the EMI on a
-          reducing balance, the on-road build-up from an ex-showroom price and a
-          state road-tax band.
-        </p>
-      </div>
-    </div>
-
-    <div class="grid grid-2" data-reveal-children>
-      <div class="card">
-        <h3 style="font-size:17px;margin-bottom:22px">EMI calculator</h3>
-
-        <div class="field">
-          <label for="emi-amount">Loan amount</label>
-          <input type="range" id="emi-amount" min="200000" max="6000000" step="50000" value="1200000">
-          <div class="range-row"><span>₹2 L</span><strong id="emi-amount-out">₹12.00 L</strong><span>₹60 L</span></div>
-        </div>
-        <div class="field">
-          <label for="emi-rate">Interest rate</label>
-          <input type="range" id="emi-rate" min="7" max="15" step="0.1" value="9.5">
-          <div class="range-row"><span>7%</span><strong id="emi-rate-out">9.5%</strong><span>15%</span></div>
-        </div>
-        <div class="field" style="margin-bottom:0">
-          <label for="emi-tenure">Tenure</label>
-          <input type="range" id="emi-tenure" min="1" max="8" step="1" value="5">
-          <div class="range-row"><span>1 yr</span><strong id="emi-tenure-out">5 years</strong><span>8 yrs</span></div>
-        </div>
-
-        <div class="result-box" id="emi-out"></div>
-      </div>
-
-      <div class="card">
-        <h3 style="font-size:17px;margin-bottom:22px">On-road estimate</h3>
-
-        <div class="field">
-          <label for="orp-variant">Model and variant</label>
-          <select id="orp-variant"></select>
-        </div>
-        <div class="field">
-          <label for="orp-state">Registration state</label>
-          <select id="orp-state"></select>
-        </div>
-
-        <div class="result-box" id="orp-out"></div>
-      </div>
-    </div>
-
-    <div class="grid grid-3" id="finance-products" style="margin-top:22px"></div>
-  </div>
-</section>
-
-<!-- ---------------------------------------------------------- pre-owned -- -->
-<section class="section" id="preowned">
-  <div class="wrap">
-    <!-- The copy column is a flex stack so its call to action drops to the
-         foot of the list beside it, rather than leaving the lower left void. -->
-    <div class="cpo" data-reveal-children>
-      <div class="cpo-copy">
-        <span class="eyebrow">Certified Pre-Owned</span>
-        <h2 id="cpo-name">Volkswagen Certified Pre-Owned</h2>
-        <p class="cpo-standfirst" id="cpo-standfirst"></p>
-        <a class="btn btn-ghost cpo-cta" href="#book">Talk to an advisor</a>
-      </div>
-      <ul class="cpo-list" id="cpo-list"></ul>
-    </div>
-  </div>
-</section>
-
-<!-- ---------------------------------------------------------- heritage -- -->
-<section class="section section-alt" id="heritage">
-  <div class="wrap">
-    <div class="heritage">
-      <div data-reveal>
-        <div class="section-head" style="margin-bottom:34px">
-          <span class="eyebrow">In India since 2007</span>
-          <h2 id="brand-headline">Indian spirit meets German excellence</h2>
-          <p id="brand-intro"></p>
-        </div>
-        <div class="heritage-facts" id="brand-facts"></div>
-      </div>
-      <div class="timeline" id="brand-timeline" data-reveal></div>
-    </div>
-  </div>
-</section>
-
-<!-- -------------------------------------------------------------- book -- -->
-<section class="section" id="book">
-  <div class="wrap">
-    <div class="section-head" data-reveal>
-      <span class="eyebrow">Next steps</span>
-      <h2>Book a test drive</h2>
-      <p>
-        Both forms post to the API, which validates them and returns a reference.
-        This is a knowledge-base demo — nothing is stored and no one will call you.
-      </p>
-    </div>
-
-    <div class="grid grid-2" data-reveal-children>
-      <form class="card" id="booking-form" novalidate>
-        <div class="book-stage" id="book-stage" aria-hidden="true"></div>
-        <h3 class="card-title">Test drive</h3>
-        <div class="field">
-          <label for="b-name">Full name</label>
-          <input type="text" id="b-name" required minlength="2" placeholder="Asha Nair">
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label for="b-phone">Phone number</label>
-            <input type="tel" id="b-phone" required placeholder="9876543210" inputmode="numeric">
-          </div>
-          <div class="field">
-            <label for="b-city">Nearest city</label>
-            <select id="b-city"></select>
-          </div>
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label for="b-model">Model</label>
-            <select id="b-model" required></select>
-          </div>
-          <div class="field">
-            <label for="b-date">Preferred date</label>
-            <input type="date" id="b-date" required>
-          </div>
-        </div>
-        <button class="btn btn-primary" type="submit" style="width:100%">Request a test drive</button>
-        <div id="booking-msg" style="margin-top:16px"></div>
-      </form>
-
-      <form class="card" id="lead-form" novalidate>
-        <h3 class="card-title">Or request a callback</h3>
-        <div class="field">
-          <label for="l-name">Full name</label>
-          <input type="text" id="l-name" required minlength="2" placeholder="Rohit Verma">
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label for="l-phone">Phone number</label>
-            <input type="tel" id="l-phone" required placeholder="9876543210" inputmode="numeric">
-          </div>
-          <div class="field">
-            <label for="l-city">City</label>
-            <select id="l-city"></select>
-          </div>
-        </div>
-        <div class="field">
-          <label for="l-interest">Interested in</label>
-          <select id="l-interest"></select>
-        </div>
-        <div class="field">
-          <label for="l-message">Anything we should know</label>
-          <input type="text" id="l-message" placeholder="Optional">
-        </div>
-        <button class="btn btn-ghost" type="submit" style="width:100%">Request a callback</button>
-        <div id="lead-msg" style="margin-top:16px"></div>
-      </form>
-    </div>
-  </div>
-</section>
-
-<!-- ------------------------------------------------------------ footer -- -->
-<footer class="footer">
-  <div class="wrap">
-    <div class="footer-grid">
-      <div>
-        <img class="footer-mark" src="/assets/img/vw-logo.png" alt=""
-             width="34" height="34" loading="lazy" decoding="async">
-        <h4>About this site</h4>
-        <p style="max-width:44ch">
-          A demonstration front end over a scraped knowledge base of
-          volkswagen.co.in. It is not the official Volkswagen India website and
-          is not affiliated with Volkswagen AG.
-        </p>
-        <div class="footer-stats" id="footer-stats"></div>
-      </div>
-      <div>
-        <h4>Models</h4>
-        <ul id="footer-models"></ul>
-      </div>
-      <div>
-        <h4>Ownership</h4>
-        <ul>
-          <li><a href="#ownership">4EVER Care</a></li>
-          <li><a href="#ownership">Warranty</a></li>
-          <li><a href="#ownership">Roadside assistance</a></li>
-          <li><a href="#ownership">Genuine parts</a></li>
-          <li><a href="#preowned">Certified Pre-Owned</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>API</h4>
-        <ul>
-          <li><a href="/dashboard.html">API explorer</a></li>
-          <li><a href="/docs">Swagger UI</a></li>
-          <li><a href="/redoc">ReDoc</a></li>
-          <li><a href="/api/meta">Endpoint index</a></li>
-          <li><a href="/openapi.json">OpenAPI schema</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-legal">
-      <p id="footer-disclaimer"></p>
-      <p id="footer-credit"></p>
-      <p>Content and model renders sourced from volkswagen.co.in. Volkswagen is a
-         trademark of Volkswagen AG.</p>
-    </div>
-  </div>
-</footer>
-
-<!-- --------------------------------------------------------- model panel -- -->
-<div class="panel-scrim" id="panel-scrim"></div>
-<aside class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panel-title" aria-hidden="true">
-  <div class="panel-head">
-    <div>
-      <span class="label" id="panel-body-type"></span>
-      <h2 id="panel-title">Model</h2>
-    </div>
-    <button class="panel-close" id="panel-close" type="button" aria-label="Close"></button>
-  </div>
-  <div class="panel-body" id="panel-content"></div>
-</aside>
-
-<script type="module" src="/assets/js/site.js"></script>
 <script>
   (function () {
     var w = window;
@@ -395,5 +66,51 @@
 <script src="https://skill-mine-api.perfox.ai/widget/v1/widget.js"
         data-site="sa_site_live_1Y359MWPZR04A7VVD44KYZ24TN7BPWZT"
         defer></script>
+        
+<script>
+  async function loadData() {
+    // Load Models
+    const modelsRes = await fetch('/api/models');
+    const modelsData = await modelsRes.json();
+    const modelsGrid = document.getElementById('models-grid');
+    modelsGrid.innerHTML = modelsData.models.map(m => `
+      <div class="card">
+        <img src="${m.image}" alt="${m.name}" style="width:100%; border-radius:8px; margin-bottom:15px;">
+        <h3>${m.name}</h3>
+      </div>
+    `).join('');
+
+    // Load Outlets
+    const outletsRes = await fetch('/api/outlets');
+    const outletsData = await outletsRes.json();
+    const outletsGrid = document.getElementById('outlets-grid');
+    outletsGrid.innerHTML = outletsData.outlets.map(o => `
+      <div class="outlet-card">
+        <h3>${o.name}</h3>
+        <p><strong>Type:</strong> ${o.type}</p>
+        <p><strong>Address:</strong> ${o.address}</p>
+        <p><strong>Phone:</strong> ${o.phone}</p>
+        <p><strong>Email:</strong> ${o.email}</p>
+      </div>
+    `).join('');
+  }
+
+  document.getElementById('contact-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: document.getElementById('contact-name').value,
+        phone: document.getElementById('contact-phone').value,
+        message: document.getElementById('contact-message').value
+      })
+    });
+    const data = await res.json();
+    document.getElementById('contact-result').innerText = data.message;
+  });
+
+  loadData();
+</script>
 </body>
 </html>
