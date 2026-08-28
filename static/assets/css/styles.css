@@ -1,0 +1,1018 @@
+/* Volkswagen India — shared styles.
+ *
+ * Direction: cinematic dark showroom. Near-black ground; each car stands in a
+ * pool of light rather than on a card, its silhouette shadow falling into the
+ * falloff. Surfaces are separated by light — a raised fill, an inner top
+ * highlight and a deep shadow — not by borders.
+ *
+ * The cars are the source site's own studio renders, saved as alpha cutouts so
+ * they sit on the page background with no white slab behind them. The drawn
+ * body-type elevations they replaced are still here, underneath, holding the
+ * frame while a render decodes and standing in for any that is missing.
+ *
+ * The one place the no-borders rule is suspended is data: the compare table
+ * and the on-road build-up keep explicit rules and a lifted ink, because
+ * scanning columns in the dark needs edges. That is deliberate.
+ */
+
+:root {
+  /* Ground — near-black with only a trace of cool in it. A heavy blue cast
+     reads as a screen effect; a neutral one reads as an unlit room. */
+  --bg:        #0a0b0f;
+  --bg-2:      #0d0f14;   /* alternating section band */
+  --bg-3:      #12151b;   /* raised surface: cards, panels */
+  --bg-hover:  #191d25;
+  --bg-deep:   #06070a;   /* footer — the page closing out */
+
+  /* Ink */
+  --ink:       #f4f6f9;   /* headings */
+  --ink-body:  #c3c9d3;   /* running copy */
+  --ink-soft:  #949ba8;   /* secondary */
+  --ink-faint: #7c838f;   /* captions, meta — still 5:1 on --bg */
+
+  /* Separation is light, not line. --line only appears where data needs an
+     edge; --line-soft is the faintest lift between stacked surfaces. */
+  --line:      rgba(255, 255, 255, .11);
+  --line-soft: rgba(255, 255, 255, .055);
+  --lift:      inset 0 1px 0 rgba(255, 255, 255, .06);
+
+  /* Accent — VW's dynamic blue, used as a mark and a state, never as a wash
+     and never as a glow. It carries text at 7:1 on this ground. */
+  --accent:     #00b0f0;
+  --accent-ink: #5cc9f5;
+  --accent-rim: rgba(0, 176, 240, .3);
+
+  /* Showroom light is cool WHITE, not cyan. The pools behind the cars are
+     mostly this, with the accent only tinting the edge of the falloff. */
+  --keylight:  rgba(216, 232, 248, .14);
+  --filllight: rgba(0, 176, 240, .09);
+
+  /* Semantic */
+  --ok:   #45d6a0;
+  --err:  #ff7a6e;
+
+  --radius:    3px;
+  --radius-lg: 6px;
+  --shadow:    0 1px 3px rgba(0, 0, 0, .55), 0 24px 52px rgba(0, 0, 0, .45);
+  --maxw: 1220px;
+
+  --sans:  "Archivo", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono:  "IBM Plex Mono", ui-monospace, "Cascadia Code", "SF Mono", monospace;
+
+  /* Native form controls, scrollbars and selection follow the page. */
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 74px; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink-body);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
+}
+p { margin: 0; text-wrap: pretty; }
+a { color: var(--accent-ink); text-decoration: none; }
+a:hover { color: var(--ink); }
+img { max-width: 100%; display: block; }
+button, input, select, textarea { font: inherit; color: inherit; }
+::selection { background: var(--accent-rim); color: #fff; }
+code {
+  font-family: var(--mono); font-size: .86em;
+  background: rgba(0, 176, 240, .1); color: var(--accent-ink);
+  padding: .14em .44em; border-radius: 3px;
+}
+
+/* Drawn icons sit inline with text and must never be squeezed by a flex parent. */
+.i { flex-shrink: 0; vertical-align: -0.14em; }
+
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+
+/* The one repeated typographic device: small tracked caps in the sans.
+   Monospace is kept for what is actually code — endpoint paths, file paths,
+   the API explorer — so it means something when it appears. */
+.label, .eyebrow {
+  font-family: var(--sans);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .13em; text-transform: uppercase;
+}
+.label { color: var(--ink-faint); }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 11px;
+  color: var(--accent-ink); margin-bottom: 16px;
+}
+.eyebrow::before {
+  content: ""; width: 24px; height: 1px; flex-shrink: 0;
+  background: var(--accent);
+}
+
+/* ------------------------------------------------------------------- nav -- */
+
+.nav {
+  position: sticky; top: 0; z-index: 60;
+  background: rgba(10, 11, 15, .8);
+  backdrop-filter: blur(16px) saturate(140%);
+  box-shadow: 0 1px 0 var(--line-soft);
+}
+.nav-inner {
+  max-width: var(--maxw); margin: 0 auto; padding: 13px 28px;
+  display: flex; align-items: center; gap: 30px;
+}
+.brand {
+  display: flex; align-items: center; gap: 11px;
+  color: var(--ink); font-size: 15.5px; font-weight: 600;
+  letter-spacing: -0.014em; flex-shrink: 0;
+}
+/* The badge is a raster asset, so it gets a fixed box and its own optical
+   size — a circular mark needs a little more than the wedge it replaced to
+   carry the same weight beside the wordmark. */
+.brand-mark { display: block; width: 30px; height: 30px; flex-shrink: 0; }
+.nav-links {
+  display: flex; align-items: center; gap: 24px;
+  margin-left: auto; flex-wrap: wrap;
+}
+.nav-links a {
+  color: var(--ink-soft); font-size: 14px; font-weight: 500;
+  letter-spacing: -0.006em; transition: color .15s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--ink); }
+.nav-sep { width: 1px; height: 17px; background: var(--line); flex-shrink: 0; }
+
+/* --------------------------------------------------------------- buttons -- */
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  min-height: 44px; padding: 11px 22px;
+  border: 1px solid transparent; border-radius: var(--radius);
+  font-size: 14px; font-weight: 600; letter-spacing: -0.004em;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s,
+              box-shadow .18s, transform .08s;
+}
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
+
+/* Flat, near-white, no glow. The accent stays a mark rather than a shout. */
+.btn-primary { background: #eef1f5; color: #0a0b0f; }
+.btn-primary:hover { background: #fff; color: #0a0b0f; }
+.btn-ghost {
+  background: rgba(255, 255, 255, .035); border-color: var(--line);
+  color: var(--ink); box-shadow: var(--lift);
+}
+.btn-ghost:hover { background: var(--bg-hover); border-color: rgba(255, 255, 255, .22); }
+.btn-sm { min-height: 36px; padding: 7px 14px; font-size: 13px; }
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px;
+}
+
+/* -------------------------------------------------------------- sections -- */
+
+.section { padding: 108px 0; position: relative; }
+.section + .section { box-shadow: inset 0 1px 0 var(--line-soft); }
+.section-alt { background: var(--bg-2); }
+.section-head { margin-bottom: 46px; max-width: 66ch; }
+
+/* Heading left, intro right. Two of the mid-page sections use this so the
+   page is not ten identical stacks in a row. */
+.section-head-split {
+  max-width: none; display: grid; gap: 0 56px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+.section-head-split .eyebrow { grid-column: 1; grid-row: 1; }
+.section-head-split h2 { grid-column: 1; grid-row: 2; }
+/* The intro sits on the heading's baseline, not floating above it. */
+.section-head-split .lede { grid-column: 2; grid-row: 2; align-self: end; }
+.section-head-split .lede p { margin-top: 0; }
+.section-head-split .lede .src { margin-top: 12px; }
+@media (max-width: 900px) {
+  .section-head-split { grid-template-columns: minmax(0, 1fr); }
+  .section-head-split .lede { grid-column: 1; grid-row: auto; margin-top: 16px; }
+}
+.section-head h2 { font-size: clamp(28px, 3.5vw, 40px); }
+.section-head p { margin-top: 16px; color: var(--ink-soft); font-size: 17px; line-height: 1.66; }
+.section-head .src { margin-top: 12px; font-size: 13px; color: var(--ink-faint); }
+
+.grid { display: grid; gap: 20px; }
+
+/* The card grid, mobile-first. Cards occupy a share of the track count rather
+   than a fixed column, so a leftover row widens to fill instead of stranding
+   an empty cell — five models used to leave a hole in the second row, and the
+   filters change the count on every click. */
+.grid-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
+
+@media (min-width: 721px) {
+  /* Two to a row; a lone leftover takes the whole row. */
+  .grid-cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .grid-cards > * { grid-column: span 2; }
+  .grid-cards > :nth-child(2n + 1):nth-last-child(1) { grid-column: span 4; }
+}
+
+@media (min-width: 1081px) {
+  /* Three to a row; two left over share the row between them. */
+  .grid-cards { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .grid-cards > *,
+  .grid-cards > :nth-child(2n + 1):nth-last-child(1) { grid-column: span 2; }
+  .grid-cards > :nth-child(3n + 1):nth-last-child(2),
+  .grid-cards > :nth-child(3n + 1):nth-last-child(2) ~ * { grid-column: span 3; }
+  .grid-cards > :nth-child(3n + 1):nth-last-child(1) { grid-column: span 6; }
+}
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+/* Surfaces are raised by fill, an inner top highlight and a deep shadow —
+   never by a drawn border. */
+.card {
+  background: var(--bg-3); border: 0; border-radius: var(--radius-lg);
+  padding: 30px; box-shadow: var(--lift), var(--shadow);
+}
+
+/* ------------------------------------------------------------------ hero -- */
+
+.hero { padding: 78px 0 82px; position: relative; overflow: hidden; }
+
+/* The key light: one soft source off the top-right, falling away to nothing.
+   Everything else on the page is lit relative to this. */
+.hero::before {
+  content: ""; position: absolute; inset: -30% -10% auto -10%; height: 150%;
+  background:
+    radial-gradient(56% 50% at 74% 20%, rgba(214, 231, 248, .1), transparent 68%),
+    radial-gradient(44% 38% at 80% 32%, rgba(0, 176, 240, .07), transparent 72%);
+  pointer-events: none;
+}
+.hero-grid {
+  position: relative;
+  display: grid; gap: 44px;
+  grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+  align-items: center;
+}
+.hero-copy { position: relative; z-index: 2; }
+.hero h1 {
+  /* Capped so "Volkswagen" stays on one line at desktop widths. */
+  font-size: clamp(38px, 5.1vw, 62px);
+  letter-spacing: -0.028em; line-height: 1.08;
+}
+/* The second line is set apart by weight and tone, not by a glow. */
+.hero h1 em {
+  font-style: normal; display: block;
+  color: #a9b0bb; font-weight: 400;
+}
+.hero-lede {
+  margin-top: 22px; max-width: 46ch;
+  font-size: 18.5px; color: var(--ink-soft);
+}
+.hero-cta { margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ------------------------------------------------------------ hero stage -- */
+
+/* One car, lit like it is on a stand in a dark showroom: a key light behind
+   it, a floor line it stands on, and its own silhouette shadow pooling under
+   the wheels. */
+.stage { position: relative; padding: 8px 0 0; touch-action: pan-y; }
+
+/* Slider arrows. They sit over the car's dead space at either side, quiet
+   until the showcase is hovered — the strip below is the obvious control, so
+   these do not need to shout. */
+.stage-nav {
+  position: absolute; top: 34%; transform: translateY(-50%); z-index: 3;
+  width: 44px; height: 44px; display: grid; place-items: center;
+  background: rgba(18, 21, 27, .6); backdrop-filter: blur(8px);
+  border: 1px solid var(--line-soft); border-radius: 50%;
+  color: var(--ink-soft); cursor: pointer;
+  opacity: 0; transition: opacity .2s, background .16s, border-color .16s, color .16s;
+}
+.stage:hover .stage-nav,
+.stage-nav:focus-visible { opacity: 1; }
+.stage-nav:hover {
+  background: rgba(26, 30, 38, .9); border-color: rgba(255, 255, 255, .24);
+  color: var(--ink);
+}
+.stage-nav.prev { left: -6px; }
+.stage-nav.next { right: -6px; }
+.stage-nav.prev svg { transform: rotate(180deg); }
+
+.stage-foot {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 20px; margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid var(--line-soft);
+}
+.stage-count { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.stage-car { position: relative; display: flex; justify-content: center; }
+.stage-car .shot { width: min(620px, 100%); }
+.stage-car .shot-img { filter: drop-shadow(0 34px 30px rgba(0, 0, 0, .74)); }
+/* Key light behind the car. */
+.stage-car::before {
+  content: ""; position: absolute; inset: -14% -6% -6%;
+  background:
+    radial-gradient(48% 60% at 50% 54%, var(--keylight), transparent 72%),
+    radial-gradient(30% 40% at 50% 50%, var(--filllight), transparent 78%);
+  pointer-events: none; z-index: -1;
+}
+/* The floor it stands on — a hairline that fades out at both ends. */
+.stage-car::after {
+  content: ""; position: absolute; left: 6%; right: 6%; bottom: 3.4%;
+  height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, transparent,
+              rgba(224, 238, 252, .38) 24%, rgba(224, 238, 252, .38) 76%, transparent);
+}
+
+.stage-caption {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap; margin-top: 22px;
+}
+.stage-caption h2 {
+  margin-top: 6px; font-size: clamp(26px, 3.1vw, 38px); letter-spacing: -0.034em;
+}
+.stage-tagline { margin-top: 5px; color: var(--accent-ink); font-size: 15px; font-weight: 500; }
+.stage-price { text-align: right; }
+.stage-price .amount {
+  display: block; font-size: 30px; font-weight: 700; color: var(--ink);
+  letter-spacing: -0.032em; font-variant-numeric: tabular-nums; line-height: 1.05;
+}
+.stage-spec { margin: 0; }
+.stage-more { margin-top: 16px; }
+
+/* Each car arrives from the side the reader moved from. */
+@keyframes slide-from-right {
+  from { opacity: 0; transform: translateX(56px) scale(.98); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes slide-from-left {
+  from { opacity: 0; transform: translateX(-56px) scale(.98); }
+  to   { opacity: 1; transform: none; }
+}
+.stage-car.slide-next { animation: slide-from-right .6s cubic-bezier(.22, .68, .36, 1) both; }
+.stage-car.slide-prev { animation: slide-from-left  .6s cubic-bezier(.22, .68, .36, 1) both; }
+
+/* ------------------------------------------------------------ hero strip -- */
+
+.strip {
+  margin-top: 46px; padding-top: 22px;
+  border-top: 1px solid var(--line-soft);
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+.strip-item {
+  display: grid; justify-items: center; gap: 2px;
+  padding: 12px 10px 14px; cursor: pointer;
+  background: none; border: 0; border-radius: var(--radius);
+  box-shadow: inset 0 0 0 1px transparent;
+  transition: background .16s, box-shadow .16s;
+}
+.strip-item:hover { background: rgba(255, 255, 255, .035); }
+.strip-item[aria-pressed="true"] {
+  background: rgba(255, 255, 255, .045);
+  box-shadow: inset 0 1px 0 var(--accent);
+}
+.strip-fig { display: block; width: 100%; max-width: 120px; }
+.strip-item .shot { width: 100%; }
+.strip-item .shot-img {
+  opacity: .5; filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .55));
+  transition: opacity .22s;
+}
+.strip-item:hover .shot-img,
+.strip-item[aria-pressed="true"] .shot-img { opacity: 1; }
+.strip-nm {
+  margin-top: 6px; font-size: 13px; font-weight: 600; color: var(--ink-soft);
+  letter-spacing: -0.01em; text-align: center;
+}
+.strip-item[aria-pressed="true"] .strip-nm { color: var(--ink); }
+.strip-pr {
+  font-size: 11.5px; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums; letter-spacing: .01em;
+}
+
+/* Sized to content with hairline separators, not stretched thirds. Three short
+   values across equal thirds of a 1164px container left 77% of the row as
+   internal air; a strip reads as one fact after another instead of three
+   islands. */
+.hero-stats {
+  margin-top: 38px; padding-top: 26px;
+  border-top: 1px solid var(--line-soft);
+  display: flex; flex-wrap: wrap; align-items: flex-start;
+}
+.hero-stats > * + * {
+  margin-left: 44px; padding-left: 44px;
+  border-left: 1px solid var(--line-soft);
+}
+.hero-stats .v {
+  font-size: 27px; font-weight: 700; color: var(--ink);
+  letter-spacing: -0.03em; font-variant-numeric: tabular-nums;
+  display: block; line-height: 1.1;
+}
+.hero-stats .k { margin-top: 5px; }
+
+/* -------------------------------------------------------------- line-up -- */
+
+.filters {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  margin-bottom: 26px;
+}
+.chip {
+  min-height: 38px; padding: 7px 15px;
+  background: rgba(255, 255, 255, .04); border: 1px solid var(--line-soft);
+  border-radius: 999px; color: var(--ink-soft);
+  font-size: 13.5px; font-weight: 500; cursor: pointer;
+  transition: background .14s, border-color .14s, color .14s, box-shadow .16s;
+}
+.chip:hover { border-color: rgba(255, 255, 255, .2); color: var(--ink); }
+.chip[aria-pressed="true"] {
+  background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .3);
+  color: var(--ink);
+}
+.chip .n {
+  font-size: 11.5px; opacity: .6; margin-left: 7px; font-variant-numeric: tabular-nums;
+}
+.filter-count {
+  margin-left: auto; font-size: 12px;
+  color: var(--ink-faint); letter-spacing: .01em;
+}
+
+.model-card {
+  display: flex; flex-direction: column;
+  background: var(--bg-3); border: 0;
+  border-radius: var(--radius-lg); overflow: hidden;
+  box-shadow: var(--lift), var(--shadow);
+  transition: box-shadow .2s, transform .2s;
+}
+.model-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--lift), var(--shadow), 0 0 0 1px rgba(255, 255, 255, .1);
+}
+
+/* ----------------------------------------------------------------- shots -- */
+
+/* A studio render over its body-type drawing. The wrapper owns the frame at
+   the renders' native 2.64:1, so swapping one in causes no reflow and a model
+   without a render still occupies the same space. */
+.shot {
+  position: relative; display: block;
+  width: var(--shot-w, 220px); max-width: 100%;
+  aspect-ratio: 1280 / 484;
+}
+.shot > .fig,
+.shot-ph { position: absolute; inset: 0; display: grid; place-items: center; }
+.shot-ph { color: #223047; }
+.shot .fig, .shot-ph svg { width: 100%; height: auto; }
+.shot-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: contain;
+  -webkit-user-drag: none; user-select: none;
+  opacity: 0; transition: opacity .45s ease;
+  /* The cutout has no rectangle, so the shadow follows the car's silhouette. */
+  filter: drop-shadow(0 16px 16px rgba(0, 0, 0, .62));
+}
+.shot-img.loaded { opacity: 1; }
+/* Once the render is up the drawing has done its job — hide it so its
+   line-work does not ghost through the photograph. */
+.shot-ph { transition: opacity .3s ease; }
+.shot.ready .shot-ph { opacity: 0; }
+
+/* The signature move: the car stands in a pool of light rather than on a
+   tinted panel. The falloff is the frame. */
+.model-fig {
+  display: flex; align-items: center; justify-content: center;
+  padding: 26px 18px 24px; position: relative;
+  color: #e4eefc;
+  background:
+    radial-gradient(64% 84% at 50% 64%, var(--keylight), transparent 70%),
+    radial-gradient(36% 50% at 50% 56%, var(--filllight), transparent 76%),
+    linear-gradient(180deg, #0d0f15 0%, #101319 100%);
+  box-shadow: inset 0 -1px 0 var(--line-soft);
+}
+/* The floor: a tight ellipse the car appears to be standing on. */
+.model-fig::after {
+  content: ""; position: absolute; left: 50%; bottom: 30px;
+  width: 58%; height: 12px; transform: translateX(-50%);
+  background: radial-gradient(closest-side, rgba(210, 228, 246, .22), transparent);
+  filter: blur(6px); pointer-events: none;
+}
+.model-fig .badge-slot { position: absolute; top: 14px; left: 16px; z-index: 2; }
+.model-fig .shot { z-index: 1; }
+.model-card:hover .shot-img { filter: drop-shadow(0 18px 20px rgba(0, 0, 0, .7)); }
+
+/* Renders above the compare columns, on the table's own track widths. */
+/* Inside the table's scroller so the renders stay over their own columns and
+   never widen the page on a phone. */
+.compare-shots {
+  display: grid; grid-template-columns: 26% 37% 37%;
+  gap: 0; min-width: 640px; padding: 20px 0 6px;
+}
+.compare-shots > div { display: flex; justify-content: center; align-items: flex-end; }
+.compare-shots .shot { width: min(240px, 100%); }
+
+.model-body { padding: 22px 24px 24px; display: flex; flex-direction: column; flex: 1; }
+.model-card h3 { font-size: 21px; letter-spacing: -0.028em; }
+.model-card .tagline {
+  margin-top: 5px; font-size: 13.5px; color: var(--accent-ink); font-weight: 500;
+}
+.model-card .blurb {
+  margin-top: 13px; font-size: 14.5px; color: var(--ink-soft); flex: 1;
+}
+.model-spec {
+  margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line-soft);
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 18px;
+}
+.model-spec .v {
+  font-size: 15px; font-weight: 600; color: var(--ink);
+  letter-spacing: -0.015em; display: block;
+}
+.model-spec .k { margin-top: 2px; }
+.model-foot {
+  margin-top: 22px; display: flex; align-items: center;
+  justify-content: space-between; gap: 14px;
+}
+.price-from .amount {
+  font-size: 22px; font-weight: 700; color: var(--ink);
+  letter-spacing: -0.03em; font-variant-numeric: tabular-nums;
+}
+
+.badge {
+  display: inline-block; padding: 3px 9px;
+  border: 1px solid var(--line); border-radius: 3px;
+  background: rgba(10, 13, 20, .62); backdrop-filter: blur(6px);
+  font-family: var(--sans); font-size: 10px; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft);
+}
+.badge-accent { border-color: rgba(255, 255, 255, .18); color: var(--accent-ink); }
+
+/* ---------------------------------------------------------------- panel -- */
+
+/* Model detail opens in a right-hand sheet rather than a centred modal — the
+   content is a long read and the line-up stays visible behind it. */
+.panel-scrim {
+  position: fixed; inset: 0; z-index: 90;
+  background: rgba(3, 5, 9, .74); backdrop-filter: blur(3px);
+  opacity: 0; pointer-events: none; transition: opacity .22s;
+}
+.panel-scrim.open { opacity: 1; pointer-events: auto; }
+.panel {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 100;
+  width: min(620px, 100vw); background: var(--bg-2);
+  box-shadow: -1px 0 0 var(--line), -30px 0 80px rgba(0, 0, 0, .7);
+  transform: translateX(100%); transition: transform .26s cubic-bezier(.4, 0, .2, 1);
+  display: flex; flex-direction: column;
+}
+.panel.open { transform: none; visibility: visible; }
+/* Closed, the sheet is parked off-screen. Hiding it keeps it out of the tab
+   order and stops it widening the document on narrow viewports. */
+.panel { visibility: hidden; transition: transform .26s cubic-bezier(.4, 0, .2, 1), visibility 0s .26s; }
+.panel.open { transition: transform .26s cubic-bezier(.4, 0, .2, 1), visibility 0s; }
+.panel-head {
+  padding: 24px 28px 20px; box-shadow: inset 0 -1px 0 var(--line-soft);
+  display: flex; align-items: flex-start; gap: 18px;
+}
+.panel-head h2 { font-size: 27px; }
+.panel-close {
+  margin-left: auto; flex-shrink: 0;
+  width: 38px; height: 38px; display: grid; place-items: center;
+  background: rgba(255, 255, 255, .04); border: 1px solid var(--line);
+  border-radius: var(--radius); color: var(--ink-soft); cursor: pointer;
+}
+.panel-close:hover { background: var(--bg-hover); color: var(--ink); }
+.panel-body { padding: 26px 28px 44px; overflow-y: auto; flex: 1; }
+.panel-body h3 {
+  font-size: 11px; font-family: var(--sans); font-weight: 600;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-faint);
+  margin: 34px 0 15px;
+}
+.panel-body h3:first-child { margin-top: 0; }
+
+/* The sheet gets its own light pool for the render at the top. */
+.panel-stage {
+  display: flex; justify-content: center;
+  margin: -6px -28px 22px; padding: 22px 28px 28px;
+  color: #e4eefc; position: relative;
+  background: radial-gradient(56% 76% at 50% 60%, var(--keylight), transparent 72%);
+}
+.panel-stage::after {
+  content: ""; position: absolute; left: 50%; bottom: 26px;
+  width: 52%; height: 12px; transform: translateX(-50%);
+  background: radial-gradient(closest-side, rgba(210, 228, 246, .2), transparent);
+  filter: blur(6px); pointer-events: none;
+}
+.panel-stage .shot { z-index: 1; }
+.panel-stage .shot-img { filter: drop-shadow(0 20px 22px rgba(0, 0, 0, .7)); }
+
+/* Data, not decoration: these keep real rules. */
+.spec-list { border-top: 1px solid var(--line-soft); }
+.spec-list div {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 20px;
+  padding: 11px 0; border-bottom: 1px solid var(--line-soft); font-size: 14.5px;
+}
+.spec-list .k2 { color: var(--ink-soft); }
+.spec-list .v2 {
+  color: var(--ink); font-weight: 600; text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.hl { padding: 14px 0; border-bottom: 1px solid var(--line-soft); }
+.hl:first-of-type { border-top: 1px solid var(--line-soft); }
+.hl strong { display: block; color: var(--ink); font-size: 14.5px; font-weight: 600; }
+.hl p { margin-top: 5px; font-size: 14px; color: var(--ink-soft); }
+
+.variant-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 14px 16px; background: var(--bg-3);
+  border-radius: var(--radius); margin-bottom: 10px; box-shadow: var(--lift);
+}
+.variant-row .vn { font-weight: 600; color: var(--ink); font-size: 14.5px; }
+.variant-row .vnote { font-size: 12.5px; color: var(--ink-faint); margin-top: 1px; }
+.variant-row .vp {
+  font-weight: 700; color: var(--ink); font-size: 16px;
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+
+/* ------------------------------------------------------------ accordion -- */
+
+.acc { border-top: 1px solid var(--line-soft); }
+.acc details { border-bottom: 1px solid var(--line-soft); }
+.acc summary {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 0; cursor: pointer; list-style: none;
+  color: var(--ink); font-weight: 600; font-size: 15px;
+  letter-spacing: -0.012em;
+}
+.acc summary::-webkit-details-marker { display: none; }
+.acc summary:hover { color: var(--accent-ink); }
+.acc summary .i { margin-left: auto; color: var(--ink-faint); transition: transform .18s; }
+.acc details[open] summary .i { transform: rotate(180deg); }
+.acc .acc-body { padding: 0 0 18px; color: var(--ink-soft); font-size: 14.5px; max-width: 74ch; }
+
+/* --------------------------------------------------------------- tables -- */
+
+/* Scanning columns in the dark needs edges, so the no-border rule stops here:
+   a lifted head, a real rule under every row, and tabular figures. */
+.table-wrap {
+  overflow-x: auto; border-radius: var(--radius-lg);
+  background: var(--bg-3); box-shadow: var(--lift), var(--shadow);
+}
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+th, td { padding: 13px 18px; text-align: left; border-bottom: 1px solid var(--line-soft); }
+th {
+  background: #171a21; color: var(--ink-soft);
+  font-family: var(--sans); font-size: 10.5px; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase; white-space: nowrap;
+  border-bottom: 1px solid var(--line);
+}
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:hover td { background: rgba(255, 255, 255, .028); }
+td.num { font-variant-numeric: tabular-nums; }
+td.rowlabel { color: var(--ink-soft); }
+td strong { color: var(--ink); font-weight: 600; }
+
+/* -------------------------------------------------------------- lit panel -- */
+
+/* The ownership promise. On a dark page the emphatic block is the LIT one —
+   a raised surface with a cyan rim and its own key light. */
+.ink-block {
+  position: relative; overflow: hidden;
+  border-radius: var(--radius-lg); padding: 48px 44px;
+  background:
+    radial-gradient(74% 120% at 12% 0%, rgba(0, 176, 240, .1), transparent 62%),
+    linear-gradient(165deg, #161a24 0%, #101319 58%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08),
+              0 0 0 1px rgba(255, 255, 255, .06),
+              0 28px 70px rgba(0, 0, 0, .5);
+}
+.ink-block h2, .ink-block h3, .ink-block strong { color: #fff; }
+.ink-block .label { color: rgba(255, 255, 255, .5); }
+.ink-block p { color: #c8ced8; }
+.pillars {
+  margin-top: 34px; display: grid; gap: 1px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  background: rgba(255, 255, 255, .1);
+  border-top: 1px solid rgba(255, 255, 255, .1);
+}
+.pillar { background: #11141a; padding: 26px 24px 6px; }
+.pillar strong { display: block; font-size: 15.5px; letter-spacing: -0.018em; }
+.pillar p { margin-top: 8px; font-size: 13.5px; color: #9aa2ae; }
+
+/* ------------------------------------------------------------- schedule -- */
+
+.schedule { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
+.care-stage {
+  padding: 26px 26px 26px 0;
+  border-top: 1px solid var(--accent);
+}
+.care-stage + .care-stage { padding-left: 26px; border-left: 1px solid var(--line-soft); }
+.care-stage .at {
+  font-size: 12.5px; color: var(--accent-ink);
+  letter-spacing: .01em; margin-top: 4px; font-variant-numeric: tabular-nums;
+}
+.care-stage h3 { font-size: 17px; }
+.care-stage ul { margin: 16px 0 0; padding: 0; list-style: none; }
+.care-stage li {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-size: 14px; color: var(--ink-soft); padding: 5px 0;
+}
+.care-stage li .i { color: var(--accent); margin-top: 4px; }
+
+/* ------------------------------------------------------------ book form -- */
+
+/* The car being booked, on the same lit stage the rest of the page uses. It
+   also squares the two forms: the callback card carries one more field, so
+   without this the test-drive card ended well short of it. */
+.book-stage {
+  display: flex; justify-content: center; align-items: center;
+  margin: -8px -8px 18px; padding: 6px 0 14px; position: relative;
+  background: radial-gradient(58% 76% at 50% 58%, var(--keylight), transparent 72%);
+}
+.book-stage::after {
+  content: ""; position: absolute; left: 50%; bottom: 16px;
+  width: 50%; height: 10px; transform: translateX(-50%);
+  background: radial-gradient(closest-side, rgba(210, 228, 246, .18), transparent);
+  filter: blur(5px); pointer-events: none;
+}
+.book-stage .shot { z-index: 1; }
+.book-stage .shot-img { filter: drop-shadow(0 14px 14px rgba(0, 0, 0, .6)); }
+
+.card-title { font-size: 17px; margin-bottom: 22px; }
+
+/* --------------------------------------------------------------- fields -- */
+
+.field { margin-bottom: 18px; }
+.field label {
+  display: block; margin-bottom: 7px;
+  font-family: var(--sans); font-size: 10.5px; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft);
+}
+.field input[type="text"], .field input[type="tel"], .field input[type="date"],
+.field input[type="search"], .field select, .field textarea, input[type="search"] {
+  width: 100%; min-height: 44px; padding: 10px 13px;
+  background: #0c1119; border: 1px solid var(--line);
+  border-radius: var(--radius); color: var(--ink); font-size: 15px;
+  transition: border-color .14s, box-shadow .16s;
+}
+.field input:hover, .field select:hover { border-color: rgba(255, 255, 255, .22); }
+.field input:focus, .field select:focus {
+  box-shadow: 0 0 0 3px rgba(0, 176, 240, .16);
+}
+.field input::placeholder { color: var(--ink-faint); }
+.field-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; }
+
+input[type="range"] {
+  width: 100%; height: 4px; margin: 12px 0 6px; padding: 0;
+  appearance: none; background: rgba(255, 255, 255, .11);
+  border-radius: 999px; cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--accent); border: 3px solid #0c0e13;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--accent); border: 3px solid #0c0e13;
+}
+.range-row {
+  display: flex; align-items: baseline; justify-content: space-between;
+  font-size: 12px; color: var(--ink-faint); font-variant-numeric: tabular-nums;
+}
+.range-row strong {
+  color: var(--ink); font-size: 14px; font-weight: 600;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+}
+
+/* The computed figure is inset — darker than the card, so the number reads
+   as the lit thing inside it. */
+.result-box {
+  margin-top: 22px; padding: 22px; background: #0b0f18;
+  border-radius: var(--radius);
+  box-shadow: inset 0 0 0 1px var(--line-soft);
+}
+.result-big {
+  font-size: 32px; font-weight: 700; color: var(--ink);
+  letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1.05;
+}
+.result-rows { margin-top: 18px; }
+.result-rows div {
+  display: flex; justify-content: space-between; gap: 16px;
+  padding: 7px 0; font-size: 14px; border-top: 1px solid var(--line-soft);
+}
+.result-rows .k2 { color: var(--ink-soft); }
+.result-rows .v2 { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.result-note { margin-top: 14px; font-size: 12.5px; color: var(--ink-faint); }
+
+/* ------------------------------------------------------------ pre-owned -- */
+
+.cpo {
+  display: grid; gap: 56px;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: stretch;
+}
+/* A flex stack so the call to action can sink to the foot of the list beside
+   it — the copy is half the list's height, and left as a plain block it left
+   the lower-left corner empty. */
+.cpo-copy { display: flex; flex-direction: column; }
+.cpo-copy h2 { font-size: clamp(28px, 3.4vw, 40px); }
+.cpo-standfirst { margin-top: 16px; color: var(--ink-soft); font-size: 17px; line-height: 1.66; }
+.cpo-copy .src { margin-top: 14px; font-size: 13px; color: var(--ink-faint); }
+.cpo-cta { margin-top: 32px; align-self: flex-start; }
+@media (min-width: 901px) { .cpo-cta { margin-top: auto; } }
+
+.cpo-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.cpo-list li {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 15px 0; border-bottom: 1px solid var(--line-soft);
+  color: var(--ink-body); font-size: 15.5px;
+}
+.cpo-list .tick { color: var(--accent-ink); margin-top: 3px; }
+
+@media (max-width: 900px) {
+  .cpo { grid-template-columns: minmax(0, 1fr); gap: 34px; }
+}
+
+/* ------------------------------------------------------------- timeline -- */
+
+/* Heritage runs as two columns: the standfirst and the headline facts on the
+   left, the chronology in its own narrow measure on the right. A one-line
+   entry stretched across 1200px reads as a spreadsheet, not a history. */
+.heritage {
+  display: grid; gap: 56px;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  align-items: start;
+}
+.heritage-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 980px) {
+  .heritage { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+}
+
+.timeline { border-top: 1px solid var(--line-soft); }
+.timeline div {
+  display: grid; grid-template-columns: 62px minmax(0, 1fr);
+  gap: 20px; padding: 12px 0; border-bottom: 1px solid var(--line-soft);
+  font-size: 14.5px; color: var(--ink-soft);
+}
+.timeline .yr {
+  font-size: 13.5px; font-weight: 600;
+  color: var(--accent-ink); font-variant-numeric: tabular-nums;
+}
+
+/* -------------------------------------------------------------- notices -- */
+
+.notice {
+  padding: 13px 16px; border-radius: var(--radius);
+  background: var(--bg-3); box-shadow: var(--lift);
+  font-size: 14px; color: var(--ink-soft);
+}
+.notice-ok  { color: var(--ok);  box-shadow: inset 0 0 0 1px rgba(69, 214, 160, .3); background: rgba(69, 214, 160, .08); }
+.notice-err { color: var(--err); box-shadow: inset 0 0 0 1px rgba(255, 122, 110, .32); background: rgba(255, 122, 110, .08); }
+
+.skeleton {
+  min-height: 168px; border-radius: var(--radius-lg);
+  background: linear-gradient(100deg, var(--bg-3) 30%, #1b2436 50%, var(--bg-3) 70%);
+  background-size: 240% 100%;
+  animation: shimmer 1.5s linear infinite;
+}
+@keyframes shimmer { to { background-position: -240% 0; } }
+
+/* --------------------------------------------------------------- reveal -- */
+
+/* One orchestrated entrance rather than scattered micro-animations: a block
+   lifts into place as it comes into view, and children stagger behind it.
+   Applied only once — nothing re-animates on the way back up. */
+[data-reveal] {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity .6s cubic-bezier(.22, .68, .36, 1),
+              transform .6s cubic-bezier(.22, .68, .36, 1);
+}
+[data-reveal].in { opacity: 1; transform: none; }
+[data-reveal-children] > * {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity .55s cubic-bezier(.22, .68, .36, 1),
+              transform .55s cubic-bezier(.22, .68, .36, 1);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+[data-reveal-children].in > * { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+  html { scroll-behavior: auto; }
+  * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  /* Never leave content stranded invisible if the transition is suppressed. */
+  [data-reveal], [data-reveal-children] > * { opacity: 1; transform: none; }
+  .stage-car.slide-next, .stage-car.slide-prev { animation: none; }
+}
+
+/* --------------------------------------------------------------- footer -- */
+
+.footer {
+  background: var(--bg-deep); color: var(--ink-soft);
+  padding: 62px 0 34px; font-size: 14px;
+  box-shadow: inset 0 1px 0 var(--line-soft);
+}
+.footer-mark { width: 34px; height: 34px; margin-bottom: 22px; opacity: .9; }
+.footer h4 {
+  color: #fff; font-family: var(--sans); font-size: 10.5px; font-weight: 600;
+  letter-spacing: .13em; text-transform: uppercase; margin-bottom: 16px;
+}
+.footer a { color: var(--ink-soft); }
+.footer a:hover { color: var(--accent-ink); }
+.footer ul { margin: 0; padding: 0; list-style: none; }
+.footer li { padding: 4px 0; }
+.footer-grid {
+  display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 40px;
+  padding-bottom: 40px; border-bottom: 1px solid var(--line-soft);
+}
+.footer-stats { display: flex; gap: 34px; flex-wrap: wrap; margin-top: 22px; }
+.footer-stats .v {
+  display: block; color: #fff; font-size: 21px; font-weight: 700;
+  letter-spacing: -0.03em; font-variant-numeric: tabular-nums;
+}
+.footer-stats .k { color: var(--ink-faint); }
+.footer-legal {
+  padding-top: 26px; display: grid; gap: 10px;
+  font-size: 12.5px; line-height: 1.62; color: var(--ink-faint);
+}
+.footer-legal p { max-width: 96ch; }
+
+/* ----------------------------------------------------------- responsive -- */
+
+@media (max-width: 1080px) {
+  .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pillars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 42px; }
+  .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .schedule { grid-template-columns: minmax(0, 1fr); }
+  .care-stage + .care-stage { padding-left: 0; border-left: 0; }
+  .care-stage { padding-right: 0; }
+}
+
+/* Below this width the nav no longer fits on one line. Rather than let it wrap
+   into four rows, the brand keeps the first row and the links become a single
+   horizontally scrollable strip beneath it, faded at the right edge so it is
+   visibly scrollable. */
+@media (max-width: 860px) {
+  .nav-inner { flex-wrap: wrap; gap: 9px 14px; padding: 11px 20px 9px; }
+  .nav-links {
+    order: 3; width: 100%; margin-left: 0;
+    flex-wrap: nowrap; overflow-x: auto; gap: 20px;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    mask-image: linear-gradient(to right, #000 calc(100% - 26px), transparent);
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links a { white-space: nowrap; }
+  html { scroll-padding-top: 96px; }
+}
+
+@media (max-width: 720px) {
+  .wrap { padding: 0 20px; }
+  .section { padding: 60px 0; }
+  .hero { padding: 48px 0 56px; }
+  .grid-2, .grid-3, .grid-4, .field-row { grid-template-columns: minmax(0, 1fr); }
+  .pillars { grid-template-columns: minmax(0, 1fr); }
+  .footer-grid { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+  .ink-block { padding: 34px 24px; }
+  .nav-links a { font-size: 13.5px; }
+  /* At phone width the separators would land on wrapped rows, so the strip
+     becomes a grid: the two counts share a row and the price range takes the
+     full width below, where it does not have to break mid-figure. */
+  .hero-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 16px; }
+  .hero-stats > * + * { margin-left: 0; padding-left: 0; border-left: 0; }
+  .hero-stats > :last-child { grid-column: 1 / -1; }
+  .hero-stats .v { font-size: 20px; }
+  .hero-stats .k { font-size: 9.5px; letter-spacing: .1em; }
+  .filter-count { margin-left: 0; width: 100%; }
+
+  /* Five cars will not share a phone's width, so the strip becomes a snapping
+     scroller with the same right-edge fade the nav uses. */
+  .strip {
+    grid-auto-columns: 118px; gap: 4px;
+    overflow-x: auto; scroll-snap-type: x proximity;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    margin-inline: -20px; padding-inline: 20px;
+    mask-image: linear-gradient(to right, #000 calc(100% - 26px), transparent);
+  }
+  .strip::-webkit-scrollbar { display: none; }
+  .strip-item { scroll-snap-align: start; }
+  .stage-caption { gap: 12px; }
+  .stage-price { text-align: left; }
+  .stage-price .amount { font-size: 26px; }
+  /* No hover on touch — the arrows stay put, tucked inside the frame. */
+  .stage-nav { opacity: 1; width: 40px; height: 40px; }
+  .stage-nav.prev { left: 0; }
+  .stage-nav.next { right: 0; }
+
+  .panel { width: 100vw; }
+  .panel-body, .panel-head { padding-inline: 20px; }
+  .panel-stage { margin-inline: -20px; padding-inline: 20px; }
+}

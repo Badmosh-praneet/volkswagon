@@ -1,0 +1,38 @@
+{
+ "taigun": {
+  "file": "taigun.webp",
+  "width": 1280,
+  "bytes": 27062,
+  "sourceAlt": "The new Taigun"
+ },
+ "tayron": {
+  "file": "tayron.webp",
+  "width": 1280,
+  "bytes": 41646,
+  "sourceAlt": "Tayron"
+ },
+ "tiguan": {
+  "file": "tiguan.webp",
+  "width": 1280,
+  "bytes": 36728,
+  "sourceAlt": "Tiguan R\u2013Line"
+ },
+ "virtus": {
+  "file": "virtus.webp",
+  "width": 1280,
+  "bytes": 79312,
+  "sourceAlt": "Virtus Chrome"
+ },
+ "golf-gti": {
+  "file": "golf-gti.webp",
+  "width": 1280,
+  "bytes": 42480,
+  "sourceAlt": "Golf GTI"
+ },
+ "virtus-sport": {
+  "file": "virtus-sport.webp",
+  "width": 1280,
+  "bytes": 66304,
+  "sourceAlt": "Virtus Sport"
+ }
+}

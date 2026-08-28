@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API explorer — Volkswagen India</title>
+<meta name="description" content="Every endpoint on the Volkswagen India API, callable in the page, with the knowledge-base file each one reads from.">
+<link rel="icon" type="image/png" href="/assets/img/favicon.png">
+<link rel="apple-touch-icon" href="/assets/img/vw-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/css/styles.css">
+<style>
+  /* Explorer-only layout. Everything else comes from the shared tokens. */
+  .explorer { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 0; align-items: start; }
+  .ep-list { border-right: 1px solid var(--line-soft); padding-right: 0; position: sticky; top: 74px; }
+  .ep-group { padding: 18px 20px 6px; }
+  .ep {
+    display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 10px; align-items: baseline;
+    width: 100%; padding: 9px 20px; background: none; border: 0; border-left: 2px solid transparent;
+    text-align: left; cursor: pointer; transition: background .13s, border-color .13s;
+  }
+  .ep:hover { background: rgba(255, 255, 255, .035); }
+  .ep[aria-current="true"] {
+    background: rgba(255, 255, 255, .05); border-left-color: var(--accent);
+  }
+  .ep .verb {
+    font-family: var(--mono); font-size: 9.5px; font-weight: 500; letter-spacing: .1em;
+    padding: 2px 0; text-align: center; border-radius: 2px;
+  }
+  .ep .verb-get  { color: var(--accent-ink); background: rgba(0, 176, 240, .13); }
+  .ep .verb-post { color: var(--ok); background: rgba(69, 214, 160, .13); }
+  .ep .path { font-family: var(--mono); font-size: 12.5px; color: var(--ink); word-break: break-all; }
+  .ep .sum { grid-column: 2; font-size: 12px; color: var(--ink-faint); margin-top: 1px; line-height: 1.45; }
+
+  .runner { padding: 0 0 0 34px; min-width: 0; }
+  .runner-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+  .runner-url {
+    font-family: var(--mono); font-size: 14px; color: var(--accent-ink);
+    background: #0b0c11; border-radius: var(--radius);
+    box-shadow: inset 0 0 0 1px var(--line-soft);
+    padding: 11px 14px; flex: 1; min-width: 240px; word-break: break-all;
+  }
+  .params { display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0 0; }
+  .params .field { margin: 0; min-width: 168px; }
+  .resp {
+    margin-top: 22px; border-radius: var(--radius-lg); overflow: hidden;
+    box-shadow: var(--lift), var(--shadow);
+  }
+  .resp-head {
+    display: flex; align-items: center; gap: 14px; padding: 11px 18px;
+    background: #171a21; box-shadow: inset 0 -1px 0 var(--line);
+  }
+  .resp pre {
+    margin: 0; padding: 20px; max-height: 62vh; overflow: auto;
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.62; color: var(--ink-body);
+    background: #0b0c11; tab-size: 2;
+  }
+  /* JSON syntax colours, tuned for the near-black ground: keys stay ink so the
+     structure reads first, values pick up hue. */
+  .j-key { color: var(--ink); font-weight: 500; }
+  .j-str { color: #7ee2b0; }
+  .j-num { color: #ffb570; }
+  .j-bool, .j-null { color: var(--accent-ink); }
+  .status-pill {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em;
+    padding: 3px 9px; border-radius: 3px;
+  }
+  .status-2xx { color: var(--ok);  background: rgba(69, 214, 160, .14); }
+  .status-4xx { color: var(--err); background: rgba(255, 122, 110, .14); }
+  @media (max-width: 940px) {
+    .explorer { grid-template-columns: minmax(0, 1fr); }
+    .ep-list {
+      position: static; border-right: 0; border-bottom: 1px solid var(--line-soft);
+      padding-bottom: 14px; margin-bottom: 26px;
+    }
+    .runner { padding-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="/" aria-label="Volkswagen India — home">
+      <img class="brand-mark" src="/assets/img/vw-logo.png" alt=""
+           width="30" height="30" decoding="async">
+      Volkswagen India
+    </a>
+    <div class="nav-links">
+      <a href="/#lineup">Models</a>
+      <a href="/#compare">Compare</a>
+      <a href="/#ownership">Ownership</a>
+      <a href="/#finance">Finance</a>
+      <a href="/#preowned">Pre-owned</a>
+      <span class="nav-sep" aria-hidden="true"></span>
+      <a href="/dashboard.html" class="active">API explorer</a>
+      <a href="/docs">Docs</a>
+    </div>
+  </div>
+</nav>
+
+<section class="section" style="padding-top:52px">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">API explorer</span>
+      <h2>Every endpoint, callable here</h2>
+      <p>
+        The same API the site runs on. Pick an endpoint, adjust its parameters and
+        send it — the response below is exactly what the page receives.
+      </p>
+      <p class="src">
+        Full schema at <a href="/docs">/docs</a> · <a href="/redoc">/redoc</a> ·
+        <a href="/openapi.json">openapi.json</a>
+      </p>
+    </div>
+
+    <div class="grid grid-4" id="meta-stats" style="margin-bottom:44px"></div>
+
+    <div class="explorer">
+      <div class="ep-list" id="ep-list"><div class="skeleton"></div></div>
+
+      <div class="runner">
+        <div class="runner-head">
+          <span class="runner-url" id="run-url">/api/meta</span>
+          <button class="btn btn-primary" id="run-btn" type="button">Send</button>
+        </div>
+        <p style="font-size:13.5px;color:var(--ink-soft)" id="run-summary"></p>
+
+        <div class="params" id="run-params"></div>
+
+        <div class="resp">
+          <div class="resp-head">
+            <span class="status-pill status-2xx" id="run-status">READY</span>
+            <span class="label" id="run-time"></span>
+            <span class="label" id="run-size" style="margin-left:auto"></span>
+          </div>
+          <pre id="run-body">Pick an endpoint on the left, then Send.</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="module" src="/assets/js/dashboard.js"></script>
+</body>
+</html>
